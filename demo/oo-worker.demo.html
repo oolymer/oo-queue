@@ -2,6 +2,8 @@
 
 <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
+<link rel="import" href="../../polymer/lib/elements/custom-style.html">
+<link rel="import" href="../../polymer/lib/utils/unresolved.html">
 <link rel="import" href="../../app-layout/app-header/app-header.html">
 <link rel="import" href="../../app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../app-layout/app-toolbar/app-toolbar.html">
@@ -10,6 +12,7 @@
 <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../paper-progress/paper-progress.html">
 <link rel="import" href="../../paper-styles/paper-styles.html">
+<link rel="import" href="../../paper-styles/paper-styles-classes.html">
 <link rel="import" href="../oo-worker.html">
 
 <body unresolved>
@@ -17,6 +20,7 @@
     <style>
       html {
         @apply --paper-font-common-base;
+        background: var(--paper-grey-200);
       }
 
       body {
@@ -38,33 +42,58 @@
           height: 64px;
         }
 
+        paper-icon-button + [main-title]:not(.style-scope) {
+          margin-left: 24px;
+        }
+
         paper-progress {
           width: 100%;
           --paper-progress-container-color: transparent;
           --paper-progress-active-color: rgba(255, 255, 255, 0.66);
         }
 
-        .content {
-          margin: 25px;
+        #container {
+          background: var(--paper-grey-200);
+        }
+
+        #content {
+          width: 80%;
+          margin: 40px auto;
+        }
+
+        .section-title {
+          margin: 10px 5px;
+        }
+
+        .section-item {
+          padding: 20px;
+          background: white;
         }
       </style>
 
-      <app-header-layout>
-        <app-header fixed>
-          <app-toolbar>
-            <paper-icon-button id="toggle" icon="menu"></paper-icon-button>
-            <div main-title>
-              <slot name="title">[[title]]</slot>
+      <div id="container">
+        <app-header-layout>
+          <app-header fixed shadow>
+            <app-toolbar>
+              <paper-icon-button id="toggle" icon="menu"></paper-icon-button>
+
+              <div main-title>
+                <slot name="title">[[title]]</slot>
+              </div>
+
+              <paper-progress indeterminate="[[loading]]" bottom-item></paper-progress>
+            </app-toolbar>
+          </app-header>
+
+          <div id="content">
+            <div class="section-title paper-font-subhead">section</div>
+
+            <div class="section-item shadow-elevation-2dp">
+              <oo-worker></oo-worker>
             </div>
-            <paper-progress indeterminate="[[loading]]" bottom-item></paper-progress>
-          </app-toolbar>
-        </app-header>
-
-        <div class="content" flex>
-          <oo-worker></oo-worker>
-        </div>
-      </app-header-layout>
-
+          </div>
+        </app-header-layout>
+      </div>
     </template>
 
     <script>
@@ -76,9 +105,9 @@
         const worker = document.querySelector("oo-worker")
         console.log(worker)
 
-        setTimeout(() => {
-          binding.loading = false
-        }, 5000)
+        setInterval(() => {
+          binding.loading = !binding.loading
+        }, 10000)
       })
     </script>
   </dom-bind>

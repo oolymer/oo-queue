@@ -25,15 +25,19 @@ export class Worker {
 
     for (const task of this.tasks.data) {
       this.queue.defer(done => {
-        console.log(task)
+        this._log(task)
         done(null)
       })
     }
 
     // this.queue.abort()
     this.queue.awaitAll(error => {
-      console.log(error)
+      this._log(error)
     })
+  }
+
+  _log(...args: any[]) {
+    console.log(`[${this.constructor.name}]`, ...args)
   }
 
 }
