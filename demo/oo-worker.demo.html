@@ -11,6 +11,7 @@
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../paper-progress/paper-progress.html">
+<link rel="import" href="../../paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="../../paper-styles/paper-styles.html">
 <link rel="import" href="../../paper-styles/paper-styles-classes.html">
 <link rel="import" href="../oo-worker.html">
@@ -58,16 +59,30 @@
 
         #content {
           width: 80%;
-          margin: 40px auto;
+          margin: 25px auto;
         }
 
-        .section-title {
-          margin: 10px 5px;
+        .section-head {
+          margin: 25px 5px 10px;
+        }
+
+        .section-body {
+          background: white;
         }
 
         .section-item {
           padding: 20px;
-          background: white;
+          border-bottom-color: rgba(0, 0, 0, 0.12);
+          border-bottom-style: solid;
+          border-bottom-width: 1px;
+          min-height: 48px;
+          align-items: center;
+          display: flex;
+          box-sizing: border-box;
+        }
+
+        .section-item.loading {
+          justify-content: center;
         }
       </style>
 
@@ -86,10 +101,26 @@
           </app-header>
 
           <div id="content">
-            <div class="section-title paper-font-subhead">section</div>
+            <div class="section-head paper-font-subhead">section</div>
 
-            <div class="section-item shadow-elevation-2dp">
-              <oo-worker></oo-worker>
+            <div class="section-body shadow-elevation-2dp">
+              <div class="section-item">
+                <oo-worker></oo-worker>
+              </div>
+              <div class="section-item">foo</div>
+              <div class="section-item">bar</div>
+              <div class="section-item">baz</div>
+            </div>
+
+            <div class="section-head paper-font-subhead">section</div>
+
+            <div class="section-body shadow-elevation-2dp">
+              <div class="section-item">foo</div>
+              <div class="section-item">bar</div>
+              <div class="section-item">baz</div>
+              <div class="section-item loading">
+                <paper-spinner-lite active></paper-spinner-lite>
+              </div>
             </div>
           </div>
         </app-header-layout>
