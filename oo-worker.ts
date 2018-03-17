@@ -21,6 +21,7 @@ export class Worker {
     this.tasks.push("foo")
     this.tasks.push("bar")
     this.tasks.push("baz")
+    this.tasks.push("quux")
 
     for (const task of this.tasks.data) {
       this.queue.defer(done => {
