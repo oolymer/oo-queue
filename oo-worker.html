@@ -1,0 +1,34 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="oo-worker">
+
+  <script>
+    // Declare in local function scope to avoid bleeding variables into global `window`.
+    (function () {
+
+      /**
+       * @customElement
+       * @polymer
+       */
+      class OoWorker extends Polymer.Element {
+
+        static get is() {
+          return "oo-worker"
+        }
+
+        static get properties() {
+          return {
+          }
+        }
+
+        ready() {
+          super.ready()
+        }
+      }
+
+      window.customElements.define(OoWorker.is, OoWorker)
+
+    }())
+  </script>
+
+</dom-module>

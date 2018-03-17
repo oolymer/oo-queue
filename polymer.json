@@ -1,0 +1,36 @@
+{
+  "entrypoint": "index.html",
+  "sources": [
+    "oo-worker.html",
+    "index.html"
+  ],
+  "extraDependencies": [
+    "LICENSE.txt"
+  ],
+  "builds": [
+    {
+      "preset": "es5-bundled",
+      "addServiceWorker": false,
+      "addPushManifest": false,
+      "js": {
+        "minify": false,
+        "compile": true
+      },
+      "css": {
+        "minify": false
+      },
+      "html": {
+        "minify": false
+      },
+      "bundle": {
+        "stripComments": true
+      }
+    }
+  ],
+  "lint": {
+    "rules": [
+      "polymer-2"
+    ],
+    "ignoreWarnings": []
+  }
+}

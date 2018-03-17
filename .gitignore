@@ -1,0 +1,13 @@
+# build files.
+build/
+
+# dependencies.
+bower_components/
+node_modules/
+
+# project files.
+.idea/
+
+# utility files.
+*.DS_Store
+yarn-error.log
