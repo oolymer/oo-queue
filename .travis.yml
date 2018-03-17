@@ -29,5 +29,6 @@ before_script:
 # run npm build.
 script:
   - npm run build
+  - npm run bundle
   - npm run lint
   - npm run test
