@@ -72,13 +72,14 @@
 
         .section-item {
           padding: 20px;
-          border-bottom-color: rgba(0, 0, 0, 0.12);
-          border-bottom-style: solid;
-          border-bottom-width: 1px;
           min-height: 48px;
           align-items: center;
           display: flex;
           box-sizing: border-box;
+        }
+
+        .section-item:not(:last-child) {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.12);
         }
 
         .section-item.loading {
@@ -110,6 +111,10 @@
               <div class="section-item">foo</div>
               <div class="section-item">bar</div>
               <div class="section-item">baz</div>
+              <div class="section-item loading" hidden$="[[!loading]]">
+                <paper-spinner-lite active></paper-spinner-lite>
+                <span style="margin-left: 15px;">loading...</span>
+              </div>
             </div>
 
             <div class="section-head paper-font-subhead">section</div>
@@ -118,9 +123,11 @@
               <div class="section-item">foo</div>
               <div class="section-item">bar</div>
               <div class="section-item">baz</div>
-              <div class="section-item loading">
-                <paper-spinner-lite active></paper-spinner-lite>
-              </div>
+            </div>
+
+            <div class="section-item loading" hidden$="[[!loading]]">
+              <paper-spinner-lite active></paper-spinner-lite>
+              <span style="margin-left: 20px;">loading...</span>
             </div>
           </div>
         </app-header-layout>
