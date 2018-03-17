@@ -2,20 +2,84 @@
 
 <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
+<link rel="import" href="../../app-layout/app-header/app-header.html">
+<link rel="import" href="../../app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../iron-icons/iron-icons.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../paper-progress/paper-progress.html">
+<link rel="import" href="../../paper-styles/paper-styles.html">
 <link rel="import" href="../oo-worker.html">
 
-<dom-bind>
+<body unresolved>
+  <custom-style>
+    <style>
+      html {
+        @apply --paper-font-common-base;
+      }
 
-  <template>
-    <oo-worker></oo-worker>
-  </template>
+      body {
+        margin: 0;
+      }
+    </style>
+  </custom-style>
 
-  <script>
-    window.addEventListener("WebComponentsReady", () => {
-      const domBind = document.querySelector("dom-bind")
-      const worker = document.querySelector("oo-worker")
-      console.log(worker)
-    })
-  </script>
+  <dom-bind>
+    <template>
+      <style>
+        :host {
+          display: block;
+        }
 
-</dom-bind>
+        app-header {
+          background-color: var(--dark-primary-color);
+          color: var(--text-primary-color);
+          height: 64px;
+        }
+
+        paper-progress {
+          width: 100%;
+          --paper-progress-container-color: transparent;
+          --paper-progress-active-color: rgba(255, 255, 255, 0.66);
+        }
+
+        .content {
+          margin: 25px;
+        }
+      </style>
+
+      <app-header-layout>
+        <app-header fixed>
+          <app-toolbar>
+            <paper-icon-button id="toggle" icon="menu"></paper-icon-button>
+            <div main-title>
+              <slot name="title">[[title]]</slot>
+            </div>
+            <paper-progress indeterminate="[[loading]]" bottom-item></paper-progress>
+          </app-toolbar>
+        </app-header>
+
+        <div class="content" flex>
+          <oo-worker></oo-worker>
+        </div>
+      </app-header-layout>
+
+    </template>
+
+    <script>
+      window.addEventListener("WebComponentsReady", () => {
+        const binding = document.querySelector("dom-bind")
+        binding.title = "demo"
+        binding.loading = true
+
+        const worker = document.querySelector("oo-worker")
+        console.log(worker)
+
+        setTimeout(() => {
+          binding.loading = false
+        }, 5000)
+      })
+    </script>
+  </dom-bind>
+</body>
