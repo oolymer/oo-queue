@@ -1,5 +1,7 @@
 <link rel="import" href="../polymer/polymer-element.html">
 
+<script src="oo-worker.dist.js"></script>
+
 <dom-module id="oo-worker">
 
   <script>
@@ -23,6 +25,10 @@
 
         ready() {
           super.ready()
+          console.log(oo)
+
+          const worker = new oo.Worker()
+          console.log(worker)
         }
       }
 
