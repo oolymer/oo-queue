@@ -121,27 +121,9 @@
           <div class="section-head paper-font-subhead">section</div>
 
           <div class="section-body shadow-elevation-2dp">
-            <div class="section-item">foo</div>
-            <div class="section-item">bar</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
-            <div class="section-item">baz</div>
+            <template is="dom-repeat" items="[[items]]" as="item">
+              <div class="section-item">[[item]]</div>
+            </template>
           </div>
 
           <div class="section-item loading" hidden$="[[!loading]]">
@@ -156,14 +138,19 @@
       window.addEventListener("WebComponentsReady", () => {
         const binding = document.querySelector("dom-bind")
         binding.title = "demo"
+
         binding.loading = true
+        setTimeout(() => {
+          binding.loading = !binding.loading
+        }, 10000)
 
         const worker = document.querySelector("oo-worker")
         console.log(worker)
 
-        setTimeout(() => {
-          binding.loading = !binding.loading
-        }, 10000)
+        binding.items = []
+        for (const task of worker._worker._tasks.data) {
+          binding.items.push(task.data)
+        }
       })
     </script>
   </dom-bind>
