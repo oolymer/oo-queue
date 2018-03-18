@@ -17,14 +17,14 @@ export class Worker {
 
     for (const task of this._tasks.data) {
       this._queue.defer(done => {
-        this._log(task)
+        // this._log(task)
         done(null)
       })
     }
 
     // this._queue.abort()
     this._queue.awaitAll(error => {
-      this._log(error)
+      // this._log(error)
     })
   }
 

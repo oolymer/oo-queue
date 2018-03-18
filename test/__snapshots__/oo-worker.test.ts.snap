@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`oo-worker should contain tasks 1`] = `
+Array [
+  Object {
+    "data": 1,
+  },
+  Object {
+    "data": 2,
+  },
+  Object {
+    "data": 3,
+  },
+  Object {
+    "data": 4,
+  },
+  Object {
+    "data": 5,
+  },
+  Object {
+    "data": 6,
+  },
+  Object {
+    "data": 7,
+  },
+  Object {
+    "data": 8,
+  },
+  Object {
+    "data": 9,
+  },
+  Object {
+    "data": 10,
+  },
+  Object {
+    "data": 11,
+  },
+  Object {
+    "data": 12,
+  },
+  Object {
+    "data": 13,
+  },
+  Object {
+    "data": 14,
+  },
+  Object {
+    "data": 15,
+  },
+  Object {
+    "data": 16,
+  },
+  Object {
+    "data": 17,
+  },
+  Object {
+    "data": 18,
+  },
+  Object {
+    "data": 19,
+  },
+  Object {
+    "data": 20,
+  },
+  Object {
+    "data": 21,
+  },
+  Object {
+    "data": 22,
+  },
+  Object {
+    "data": 23,
+  },
+  Object {
+    "data": 24,
+  },
+  Object {
+    "data": 25,
+  },
+]
+`;
