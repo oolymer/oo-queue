@@ -57,9 +57,17 @@
           --paper-progress-active-color: rgba(255, 255, 255, 0.66);
         }
 
+        /* @media screen and (max-width: 640px) { } */
+        /* @media screen and (max-width: 1023px) and (min-width: 641px) { } */
+
         #content {
-          width: 80%;
-          margin: 0 auto 50px;
+          padding: 0 32px;
+          padding-bottom: 24px;
+        }
+
+        #content-wrap {
+          margin: 0 auto;
+          max-width: 1152px;
         }
 
         .section-head {
@@ -85,6 +93,10 @@
         .section-item.loading {
           justify-content: center;
         }
+
+        .section-item.loading span {
+          padding-left: 15px;
+        }
       </style>
 
       <app-header-layout fullbleed has-scrolling-region>
@@ -103,32 +115,34 @@
         </app-header>
 
         <div id="content">
-          <div class="section-head paper-font-subhead">section</div>
+          <div id="content-wrap">
+            <div class="section-head paper-font-subhead">section</div>
 
-          <div class="section-body shadow-elevation-2dp">
-            <div class="section-item">
-              <oo-worker></oo-worker>
+            <div class="section-body shadow-elevation-2dp">
+              <div class="section-item">
+                <oo-worker></oo-worker>
+              </div>
+              <div class="section-item">foo</div>
+              <div class="section-item">bar</div>
+              <div class="section-item">baz</div>
+              <div class="section-item loading" hidden$="[[!loading]]">
+                <paper-spinner-lite active></paper-spinner-lite>
+                <span>loading...</span>
+              </div>
             </div>
-            <div class="section-item">foo</div>
-            <div class="section-item">bar</div>
-            <div class="section-item">baz</div>
+
+            <div class="section-head paper-font-subhead">section</div>
+
+            <div class="section-body shadow-elevation-2dp">
+              <template is="dom-repeat" items="[[items]]" as="item">
+                <div class="section-item">[[item]]</div>
+              </template>
+            </div>
+
             <div class="section-item loading" hidden$="[[!loading]]">
               <paper-spinner-lite active></paper-spinner-lite>
-              <span style="margin-left: 15px;">loading...</span>
+              <span>loading...</span>
             </div>
-          </div>
-
-          <div class="section-head paper-font-subhead">section</div>
-
-          <div class="section-body shadow-elevation-2dp">
-            <template is="dom-repeat" items="[[items]]" as="item">
-              <div class="section-item">[[item]]</div>
-            </template>
-          </div>
-
-          <div class="section-item loading" hidden$="[[!loading]]">
-            <paper-spinner-lite active></paper-spinner-lite>
-            <span style="margin-left: 20px;">loading...</span>
           </div>
         </div>
       </app-header-layout>

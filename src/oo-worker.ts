@@ -1,4 +1,4 @@
-/// <reference path="tinyqueue.d.ts" />
+/// <reference path="__definitions__/tinyqueue.d.ts" />
 
 import { queue, Queue } from "d3-queue"
 import TinyQueue from "tinyqueue"
