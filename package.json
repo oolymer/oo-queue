@@ -11,6 +11,7 @@
   "private": true,
   "devDependencies": {
     "@types/d3-queue": "^3.0.5",
+    "@types/jest": "^22.2.0",
     "bower": "1.8.2",
     "browser-sync": "2.23.6",
     "browserify": "16.1.1",
@@ -21,10 +22,12 @@
     "eslint-plugin-node": "6.0.1",
     "eslint-plugin-promise": "3.7.0",
     "eslint-plugin-standard": "3.0.1",
+    "jest": "^22.4.2",
     "npm-delay": "1.0.4",
     "npm-run-all": "4.1.2",
     "polymer-cli": "1.6.0",
     "tinyqueue": "1.2.3",
+    "ts-jest": "^22.4.1",
     "tsify": "3.0.4",
     "typescript": "2.7.2",
     "uglifyify": "4.0.5",
@@ -36,8 +39,8 @@
     "browser:after": "./node_modules/.bin/npm-run-all --serial util:delay serve:watch",
     "build": "./node_modules/.bin/npm-run-all --serial build:node build:polymer",
     "build:docs": "./node_modules/.bin/polymer analyze > analysis.json",
-    "build:node": "./node_modules/.bin/browserify src/oo-worker.ts --plugin [ tsify --module=commonjs ] --global-transform uglifyify --standalone oo --outfile oo-worker.min.js",
-    "build:node:watch": "./node_modules/.bin/watchify src/oo-worker.ts --plugin [ tsify --module=commonjs ] --global-transform uglifyify --standalone oo --outfile oo-worker.min.js",
+    "build:node": "./node_modules/.bin/browserify src/oo-worker.ts --outfile oo-worker.min.js --plugin [ tsify --module=commonjs ] --global-transform [ uglifyify ] --standalone oo",
+    "build:node:watch": "./node_modules/.bin/watchify src/oo-worker.ts --outfile oo-worker.min.js --plugin [ tsify --module=commonjs ] --global-transform [ uglifyify ] --standalone oo",
     "build:polymer": "./node_modules/.bin/polymer build",
     "lint": "npm run lint:polymer",
     "lint:js": "./node_modules/.bin/eslint . --ext js,html --ignore-path .gitignore",
@@ -45,9 +48,29 @@
     "serve": "./node_modules/.bin/polymer serve --port 8000",
     "serve:build": "./node_modules/.bin/polymer serve --port 8200 build/default",
     "serve:watch": "./node_modules/.bin/browser-sync start --port 8100 --proxy 'localhost:8000' --no-ui --files '*.js, *.html, demo/**/*.html, src/**/*.html, test/**/*.html' --startPath \"/components/$npm_package_name/\"",
-    "test": "./node_modules/.bin/polymer test --local chrome,firefox --config-file wct.conf.json",
-    "test:chrome": "./node_modules/.bin/polymer test --local chrome",
-    "test:firefox": "./node_modules/.bin/polymer test --local firefox",
+    "test": "./node_modules/.bin/npm-run-all --serial test:node test:polymer",
+    "test:node": "jest",
+    "test:node:watch": "jest --watchAll",
+    "test:polymer": "./node_modules/.bin/polymer test --local chrome,firefox --config-file wct.conf.json",
     "util:delay": "node ./node_modules/.bin/npm-delay 100"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/test/**/*.(js|ts)"
+    ],
+    "testPathIgnorePatterns": [
+      "/bower_components/",
+      "/node_modules"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json",
+      "node"
+    ]
   }
 }
