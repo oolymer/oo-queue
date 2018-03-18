@@ -22,7 +22,7 @@ export class Worker {
       })
     }
 
-    // this.queue.abort()
+    // this._queue.abort()
     this._queue.awaitAll(error => {
       this._log(error)
     })
