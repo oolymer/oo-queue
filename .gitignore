@@ -1,6 +1,5 @@
 # build files.
 build/
-*.dist.js
 
 # dependencies.
 bower_components/

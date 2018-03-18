@@ -27,6 +27,7 @@
     "tinyqueue": "1.2.3",
     "tsify": "3.0.4",
     "typescript": "2.7.2",
+    "uglifyify": "4.0.5",
     "watchify": "3.11.0",
     "web-component-tester": "6.5.0"
   },
@@ -35,8 +36,8 @@
     "browser:after": "./node_modules/.bin/npm-run-all --serial util:delay serve:watch",
     "build": "./node_modules/.bin/npm-run-all --serial build:node build:polymer",
     "build:docs": "./node_modules/.bin/polymer analyze > analysis.json",
-    "build:node": "./node_modules/.bin/browserify src/oo-worker.ts --plugin [ tsify --module=commonjs ] --standalone oo --outfile oo-worker.dist.js",
-    "build:node:watch": "./node_modules/.bin/watchify src/oo-worker.ts --plugin [ tsify --module=commonjs ] --standalone oo --outfile oo-worker.dist.js",
+    "build:node": "./node_modules/.bin/browserify src/oo-worker.ts --plugin [ tsify --module=commonjs ] --global-transform uglifyify --standalone oo --outfile oo-worker.min.js",
+    "build:node:watch": "./node_modules/.bin/watchify src/oo-worker.ts --plugin [ tsify --module=commonjs ] --global-transform uglifyify --standalone oo --outfile oo-worker.min.js",
     "build:polymer": "./node_modules/.bin/polymer build",
     "lint": "npm run lint:polymer",
     "lint:js": "./node_modules/.bin/eslint . --ext js,html --ignore-path .gitignore",
