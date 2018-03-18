@@ -1,6 +1,9 @@
+<!DOCTYPE html>
 <meta charset="utf-8">
+<title>demo</title>
 
 <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+<link rel="import" href="../../shadycss/apply-shim.html">
 <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
 <link rel="import" href="../../polymer/lib/elements/custom-style.html">
 <link rel="import" href="../../polymer/lib/utils/unresolved.html">
@@ -13,6 +16,7 @@
 <link rel="import" href="../../paper-progress/paper-progress.html">
 <link rel="import" href="../../paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="../../paper-styles/paper-styles.html">
+<link rel="import" href="../../paper-styles/element-styles/paper-material-styles.html">
 <link rel="import" href="../../paper-styles/paper-styles-classes.html">
 <link rel="import" href="../oo-worker.html">
 
@@ -43,7 +47,7 @@
           height: 64px;
         }
 
-        paper-icon-button + [main-title]:not(.style-scope) {
+        paper-icon-button+[main-title]:not(.style-scope) {
           margin-left: 24px;
         }
 
@@ -53,13 +57,9 @@
           --paper-progress-active-color: rgba(255, 255, 255, 0.66);
         }
 
-        #container {
-          background: var(--paper-grey-200);
-        }
-
         #content {
           width: 80%;
-          margin: 25px auto;
+          margin: 0 auto 50px;
         }
 
         .section-head {
@@ -87,51 +87,69 @@
         }
       </style>
 
-      <div id="container">
-        <app-header-layout>
-          <app-header fixed shadow>
-            <app-toolbar>
-              <paper-icon-button id="toggle" icon="menu"></paper-icon-button>
+      <app-header-layout fullbleed has-scrolling-region>
+        <app-header slot="header" fixed shadow>
 
-              <div main-title>
-                <slot name="title">[[title]]</slot>
-              </div>
+          <app-toolbar>
+            <paper-icon-button id="toggle" icon="menu"></paper-icon-button>
 
-              <paper-progress indeterminate="[[loading]]" bottom-item></paper-progress>
-            </app-toolbar>
-          </app-header>
-
-          <div id="content">
-            <div class="section-head paper-font-subhead">section</div>
-
-            <div class="section-body shadow-elevation-2dp">
-              <div class="section-item">
-                <oo-worker></oo-worker>
-              </div>
-              <div class="section-item">foo</div>
-              <div class="section-item">bar</div>
-              <div class="section-item">baz</div>
-              <div class="section-item loading" hidden$="[[!loading]]">
-                <paper-spinner-lite active></paper-spinner-lite>
-                <span style="margin-left: 15px;">loading...</span>
-              </div>
+            <div main-title>
+              <slot name="title">[[title]]</slot>
             </div>
 
-            <div class="section-head paper-font-subhead">section</div>
+            <paper-progress indeterminate="[[loading]]" bottom-item></paper-progress>
+          </app-toolbar>
 
-            <div class="section-body shadow-elevation-2dp">
-              <div class="section-item">foo</div>
-              <div class="section-item">bar</div>
-              <div class="section-item">baz</div>
+        </app-header>
+
+        <div id="content">
+          <div class="section-head paper-font-subhead">section</div>
+
+          <div class="section-body shadow-elevation-2dp">
+            <div class="section-item">
+              <oo-worker></oo-worker>
             </div>
-
+            <div class="section-item">foo</div>
+            <div class="section-item">bar</div>
+            <div class="section-item">baz</div>
             <div class="section-item loading" hidden$="[[!loading]]">
               <paper-spinner-lite active></paper-spinner-lite>
-              <span style="margin-left: 20px;">loading...</span>
+              <span style="margin-left: 15px;">loading...</span>
             </div>
           </div>
-        </app-header-layout>
-      </div>
+
+          <div class="section-head paper-font-subhead">section</div>
+
+          <div class="section-body shadow-elevation-2dp">
+            <div class="section-item">foo</div>
+            <div class="section-item">bar</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+            <div class="section-item">baz</div>
+          </div>
+
+          <div class="section-item loading" hidden$="[[!loading]]">
+            <paper-spinner-lite active></paper-spinner-lite>
+            <span style="margin-left: 20px;">loading...</span>
+          </div>
+        </div>
+      </app-header-layout>
     </template>
 
     <script>
@@ -143,7 +161,7 @@
         const worker = document.querySelector("oo-worker")
         console.log(worker)
 
-        setInterval(() => {
+        setTimeout(() => {
           binding.loading = !binding.loading
         }, 10000)
       })
