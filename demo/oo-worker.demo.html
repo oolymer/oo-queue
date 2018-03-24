@@ -23,13 +23,21 @@
 <body unresolved>
   <custom-style>
     <style>
-      html {
+      body {
         @apply --paper-font-common-base;
-        background: var(--paper-grey-200);
+        background-color: var(--paper-grey-200);
+        margin: 0;
       }
 
       body {
-        margin: 0;
+        transition: opacity ease-in 0.2s;
+      }
+
+      body[unresolved] {
+        opacity: 0;
+        display: block;
+        overflow: hidden;
+        position: relative;
       }
     </style>
   </custom-style>

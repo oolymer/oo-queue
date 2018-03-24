@@ -1,30 +1,32 @@
 /// <reference path="__definitions__/tinyqueue.d.ts" />
 
-import { queue, Queue } from "d3-queue"
 import TinyQueue from "tinyqueue"
+import PQueue from "p-queue"
 
 export class Worker {
   _tasks: TinyQueue
-  _queue: Queue
+  _queue: PQueue
 
   constructor() {
     this._tasks = new TinyQueue()
-    this._queue = queue()
+    this._queue = new PQueue({ concurrency: 1, autoStart: false })
 
     for (let index = 0; index < 25; index += 1) {
       this._tasks.push({ data: index + 1 })
     }
 
     for (const task of this._tasks.data) {
-      this._queue.defer(done => {
-        // this._log(task)
-        done(null)
+      this._queue.add(() => {
+        return Promise.resolve()
       })
     }
 
-    // this._queue.abort()
-    this._queue.awaitAll(error => {
-      // this._log(error)
+    this._log("queue size", this._queue.size, "pending", this._queue.pending)
+    this._queue.start()
+    // this._queue.pause()
+
+    this._queue.onIdle().then(() => {
+      this._log("queue size", this._queue.size, "pending", this._queue.pending)
     })
   }
 
