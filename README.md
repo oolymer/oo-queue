@@ -10,7 +10,7 @@
 <!-- TOC depthFrom:2 -->
 
 - [Usage](#usage)
-- [Semantic Versions](#semantic-versions)
+- [Contribute](#contribute)
 
 <!-- /TOC -->
 
@@ -26,7 +26,19 @@ $ bower install --save oolymer/oo-worker
 <oo-worker></oo-worker>
 ~~~
 
-## Semantic Versions
+## Contribute
+
+Develop.
+
+~~~
+$ npm install
+$ bower install --force-latest
+$ npm run build:node:watch
+$ npm run test:node:watch
+$ npm run browser
+~~~
+
+Semantic versions.
 
 - Version number format `MAJOR.MINOR.PATCH`, e.g. "1.5.3".
 - Increase MAJOR for breaking changes.
