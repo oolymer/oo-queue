@@ -4,19 +4,19 @@
 
 <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 <link rel="import" href="../../shadycss/apply-shim.html">
-<link rel="import" href="../../polymer/lib/elements/dom-bind.html">
 <link rel="import" href="../../polymer/lib/elements/custom-style.html">
+<link rel="import" href="../../polymer/lib/utils/async.html">
 <link rel="import" href="../../polymer/lib/utils/unresolved.html">
 <link rel="import" href="../../app-layout/app-header/app-header.html">
 <link rel="import" href="../../app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../iron-icons/iron-icons.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../paper-progress/paper-progress.html">
 <link rel="import" href="../../paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="../../paper-styles/paper-styles.html">
-<link rel="import" href="../../paper-styles/element-styles/paper-material-styles.html">
 <link rel="import" href="../../paper-styles/paper-styles-classes.html">
 <link rel="import" href="../oo-worker.html">
 
@@ -42,138 +42,174 @@
     </style>
   </custom-style>
 
-  <dom-bind>
-    <template>
-      <style>
-        :host {
-          display: block;
-        }
+  <demo-element></demo-element>
+</body>
 
-        app-header {
-          background-color: var(--dark-primary-color);
-          color: var(--text-primary-color);
-          height: 64px;
-        }
+<dom-module id="demo-element">
 
-        paper-icon-button+[main-title]:not(.style-scope) {
-          margin-left: 24px;
-        }
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
 
-        paper-progress {
-          width: 100%;
-          --paper-progress-container-color: transparent;
-          --paper-progress-active-color: rgba(255, 255, 255, 0.66);
-        }
+      app-header {
+        background-color: var(--dark-primary-color);
+        color: var(--text-primary-color);
+        height: 64px;
+      }
 
-        /* @media screen and (max-width: 640px) { } */
-        /* @media screen and (max-width: 1023px) and (min-width: 641px) { } */
+      paper-icon-button+[main-title]:not(.style-scope) {
+        margin-left: 24px;
+      }
 
-        #content {
-          padding: 0 32px;
-          padding-bottom: 24px;
-        }
+      paper-progress {
+        width: 100%;
+        --paper-progress-container-color: transparent;
+        --paper-progress-active-color: rgba(255, 255, 255, 0.66);
+      }
 
-        #content-wrap {
-          margin: 0 auto;
-          max-width: 1152px;
-        }
+      /* @media screen and (max-width: 640px) { } */
+      /* @media screen and (max-width: 1023px) and (min-width: 641px) { } */
 
-        .section-head {
-          margin: 25px 5px 10px;
-        }
+      #content {
+        padding: 0 32px;
+        padding-bottom: 24px;
+      }
 
-        .section-body {
-          background: white;
-        }
+      #content-wrap {
+        margin: 0 auto;
+        max-width: 1152px;
+      }
 
-        .section-item {
-          padding: 20px;
-          min-height: 48px;
-          align-items: center;
-          display: flex;
-          box-sizing: border-box;
-        }
+      .section-head {
+        margin: 25px 5px 10px;
+      }
 
-        .section-item:not(:last-child) {
-          border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-        }
+      .section-body {
+        background: white;
+        @apply --shadow-elevation-2dp;
+      }
 
-        .section-item.loading {
-          justify-content: center;
-        }
+      .section-item {
+        padding: 20px;
+        min-height: 48px;
+        align-items: center;
+        display: flex;
+        box-sizing: border-box;
+      }
 
-        .section-item.loading span {
-          padding-left: 15px;
-        }
-      </style>
+      .section-item:not(:last-child) {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      }
 
-      <app-header-layout fullbleed has-scrolling-region>
-        <app-header slot="header" fixed shadow>
+      .section-item.loading {
+        justify-content: center;
+      }
 
-          <app-toolbar>
-            <paper-icon-button id="toggle" icon="menu"></paper-icon-button>
+      .section-item.loading span {
+        padding-left: 15px;
+      }
 
-            <div main-title>
-              <slot name="title">[[title]]</slot>
+      .section-item.loading[hidden] {
+        display: none;
+      }
+    </style>
+
+    <app-header-layout fullbleed has-scrolling-region>
+      <app-header slot="header" fixed shadow>
+
+        <app-toolbar>
+          <paper-icon-button id="toggle" icon="menu"></paper-icon-button>
+
+          <div main-title>
+            <slot name="title">[[title]]</slot>
+          </div>
+
+          <paper-progress indeterminate="[[loading]]" bottom-item></paper-progress>
+        </app-toolbar>
+
+      </app-header>
+
+      <div id="content">
+        <div id="content-wrap">
+          <div class="section-head paper-font-subhead">section</div>
+
+          <div class="section-body">
+            <div class="section-item">
+              <oo-worker></oo-worker>
             </div>
-
-            <paper-progress indeterminate="[[loading]]" bottom-item></paper-progress>
-          </app-toolbar>
-
-        </app-header>
-
-        <div id="content">
-          <div id="content-wrap">
-            <div class="section-head paper-font-subhead">section</div>
-
-            <div class="section-body shadow-elevation-2dp">
-              <div class="section-item">
-                <oo-worker></oo-worker>
-              </div>
-              <div class="section-item">foo</div>
-              <div class="section-item">bar</div>
-              <div class="section-item">baz</div>
-              <div class="section-item loading" hidden$="[[!loading]]">
-                <paper-spinner-lite active></paper-spinner-lite>
-                <span>loading...</span>
-              </div>
-            </div>
-
-            <div class="section-head paper-font-subhead">section</div>
-
-            <div class="section-body shadow-elevation-2dp">
-              <template is="dom-repeat" items="[[items]]" as="item">
-                <div class="section-item">[[item]]</div>
-              </template>
-            </div>
-
+            <div class="section-item">foo</div>
+            <div class="section-item">bar</div>
+            <div class="section-item">baz</div>
             <div class="section-item loading" hidden$="[[!loading]]">
               <paper-spinner-lite active></paper-spinner-lite>
               <span>loading...</span>
             </div>
           </div>
+
+          <div class="section-head paper-font-subhead">section</div>
+
+          <div class="section-body">
+            <template is="dom-repeat" items="[[items]]" as="item">
+              <div class="section-item">[[item]]</div>
+            </template>
+          </div>
+
+          <div class="section-item loading" hidden$="[[!loading]]">
+            <paper-spinner-lite active></paper-spinner-lite>
+            <span>loading...</span>
+          </div>
         </div>
-      </app-header-layout>
-    </template>
+      </div>
+    </app-header-layout>
+  </template>
 
-    <script>
-      window.addEventListener("WebComponentsReady", () => {
-        const binding = document.querySelector("dom-bind")
-        binding.title = "demo"
+  <script>
+    window.addEventListener("WebComponentsReady", () => {
+      class DemoElement extends Polymer.Element {
 
-        binding.loading = true
-        setTimeout(() => {
-          binding.loading = !binding.loading
-        }, 10000)
-
-        const worker = document.querySelector("oo-worker")
-        console.log(worker)
-
-        binding.items = []
-        for (const task of worker._worker._tasks.data) {
-          binding.items.push(task.data)
+        static get is() {
+          return "demo-element"
         }
-      })
-    </script>
-  </dom-bind>
-</body>
+
+        static get properties() {
+          return {
+            title: String,
+
+            loading: Boolean,
+
+            items: Array
+          }
+        }
+
+        ready() {
+          super.ready()
+
+          this.title = "demo"
+
+          this.loading = true
+          this._timeout(5000).run(() => {
+            this.loading = !this.loading
+          })
+
+          const worker = this.shadowRoot.querySelector("oo-worker")
+          console.log(worker)
+
+          this.items = []
+          for (const task of worker._worker._tasks.data) {
+            this.items.push(task.data)
+          }
+        }
+
+        _timeout(delayMillis) {
+          return Polymer.Async.timeOut.after(delayMillis)
+        }
+
+      }
+
+      window.customElements.define(DemoElement.is, DemoElement)
+    })
+  </script>
+
+</dom-module>
