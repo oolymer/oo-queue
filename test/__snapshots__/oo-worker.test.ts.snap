@@ -79,22 +79,3 @@ Array [
   },
 ]
 `;
-
-exports[`oo-worker logs tasks should contain tasks 2`] = `
-Array [
-  Array [
-    "[Worker]",
-    "queue size",
-    25,
-    "pending",
-    0,
-  ],
-  Array [
-    "[Worker]",
-    "queue size",
-    0,
-    "pending",
-    0,
-  ],
-]
-`;

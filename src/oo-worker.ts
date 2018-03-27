@@ -5,18 +5,19 @@ import PQueue from "p-queue"
 
 export class Worker {
   _name?: string
-  _options?: WorkerOptions
+  _options?: WorkerOptions<Task>
+  _running: boolean
 
-  _tasks?: TinyQueue<any>
-  _queue?: PQueue
+  _tasks?: TinyQueue<Task>
+  _queue?: PQueue<Task>
 
-  constructor(name?: string, options?: WorkerOptions) {
+  constructor(name?: string, options?: WorkerOptions<Task>) {
     this._name = name
     this._options = options
+    this._running = false
 
     this._initTaskPriorityQueue()
     this._initTaskProcessQueue()
-    this.prepare()
   }
 
   private _initTaskPriorityQueue() {
@@ -27,25 +28,36 @@ export class Worker {
     this._queue = new PQueue({ concurrency: 1, autoStart: false })
   }
 
-  prepare() {
-    for (let index = 0; index < 25; index += 1) {
-      this._tasks!.push({ data: index + 1 })
-    }
+  enqueueTask(task: Task) {
+    this._tasks!.push(task)
+  }
 
-    for (const task of this._tasks!.data) {
+  dequeueTasks(size: number = 1): Task[] {
+    const batchTasks = []
+    while (size > 0 && this._tasks!.length > 0) {
+      batchTasks.push(this._tasks!.pop())
+      size -= 1
+    }
+    return batchTasks
+  }
+
+  prepareBatch(size: number = 10): PQueue<Task> {
+    const tasks = this.dequeueTasks(size)
+    for (const task of tasks) {
       this._queue!.add(() => {
         return Promise.resolve()
       })
     }
+    return this._queue!
   }
 
-  process() {
-    this._log("queue size", this._queue!.size, "pending", this._queue!.pending)
+  processBatch() {
+    // this._log("queue size", this._queue!.size, "pending", this._queue!.pending)
     this._queue!.start()
     // this._queue.pause()
 
     this._queue!.onIdle().then(() => {
-      this._log("queue size", this._queue!.size, "pending", this._queue!.pending)
+      // this._log("queue size", this._queue!.size, "pending", this._queue!.pending)
     })
   }
 
@@ -54,13 +66,22 @@ export class Worker {
   }
 }
 
-interface WorkerOptions {
-  comparator?: (task1: any, task2: any) => number,
+interface WorkerOptions<T> {
+  comparator?: (item: T, otherItem: T) => -1 | 0 | 1
 
-  batcher?: (queue: TinyQueue<any>) => any[],
+  batcher?: (queue: TinyQueue<T>) => T[]
 
   executor?: () => void
 }
+
+interface Task {
+  data?: TaskData<any>
+  action?: TaskAction
+}
+
+type TaskAction = (done: TaskDoneCallback) => void
+type TaskData<T> = T
+type TaskDoneCallback = () => void
 
 function _require(condition: boolean, lazyMessage?: () => string) {
   if (!condition) {
