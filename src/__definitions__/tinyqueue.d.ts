@@ -1,17 +1,17 @@
 declare module "tinyqueue" {
 
-  export default class TinyQueue {
-    constructor(data?: any[], compare?: Comparator)
+  export default class TinyQueue<T> {
+    constructor(data?: T[], compare?: Comparator<T>)
 
-    data: any[]
+    data: T[]
     length: number
-    compare: Comparator
+    compare: Comparator<T>
 
-    push(item: any): void
-    pop(): any
-    peek(): any
+    push(item: T): void
+    pop(): T
+    peek(): T
   }
 
-  type Comparator = (a: any, b: any) => number
+  type Comparator<T> = (a: T, b: T) => number
 
 }

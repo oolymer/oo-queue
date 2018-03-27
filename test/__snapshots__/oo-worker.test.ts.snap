@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`oo-worker tasks should contain tasks 1`] = `
+exports[`oo-worker logs tasks should contain tasks 1`] = `
 Array [
   Object {
     "data": 1,
@@ -77,5 +77,24 @@ Array [
   Object {
     "data": 25,
   },
+]
+`;
+
+exports[`oo-worker logs tasks should contain tasks 2`] = `
+Array [
+  Array [
+    "[Worker]",
+    "queue size",
+    25,
+    "pending",
+    0,
+  ],
+  Array [
+    "[Worker]",
+    "queue size",
+    0,
+    "pending",
+    0,
+  ],
 ]
 `;
