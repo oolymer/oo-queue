@@ -9,7 +9,7 @@ export class Worker {
   _running: boolean
 
   _tasks?: TinyQueue<Task>
-  _queue?: PQueue<Task>
+  _queue?: PQueue
 
   constructor(name?: string, options?: WorkerOptions<Task>) {
     this._name = name
@@ -41,7 +41,7 @@ export class Worker {
     return batchTasks
   }
 
-  prepareBatch(size: number = 10): PQueue<Task> {
+  prepareBatch(size: number = 10): PQueue {
     const tasks = this.dequeueTasks(size)
     for (const task of tasks) {
       this._queue!.add(() => {

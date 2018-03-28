@@ -1,81 +1,108 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`oo-worker logs tasks should contain tasks 1`] = `
+exports[`oo-worker tasks should contain tasks 1`] = `
 Array [
   Object {
+    "action": [Function],
     "data": 1,
   },
   Object {
+    "action": [Function],
     "data": 2,
   },
   Object {
+    "action": [Function],
     "data": 3,
   },
   Object {
+    "action": [Function],
     "data": 4,
   },
   Object {
+    "action": [Function],
     "data": 5,
   },
   Object {
+    "action": [Function],
     "data": 6,
   },
   Object {
+    "action": [Function],
     "data": 7,
   },
   Object {
+    "action": [Function],
     "data": 8,
   },
   Object {
+    "action": [Function],
     "data": 9,
   },
   Object {
+    "action": [Function],
     "data": 10,
   },
   Object {
+    "action": [Function],
     "data": 11,
   },
   Object {
+    "action": [Function],
     "data": 12,
   },
   Object {
+    "action": [Function],
     "data": 13,
   },
   Object {
+    "action": [Function],
     "data": 14,
   },
   Object {
+    "action": [Function],
     "data": 15,
   },
   Object {
+    "action": [Function],
     "data": 16,
   },
   Object {
+    "action": [Function],
     "data": 17,
   },
   Object {
+    "action": [Function],
     "data": 18,
   },
   Object {
+    "action": [Function],
     "data": 19,
   },
   Object {
+    "action": [Function],
     "data": 20,
   },
   Object {
+    "action": [Function],
     "data": 21,
   },
   Object {
+    "action": [Function],
     "data": 22,
   },
   Object {
+    "action": [Function],
     "data": 23,
   },
   Object {
+    "action": [Function],
     "data": 24,
   },
   Object {
+    "action": [Function],
     "data": 25,
   },
 ]
 `;
+
+exports[`oo-worker tasks should contain tasks 2`] = `Array []`;
