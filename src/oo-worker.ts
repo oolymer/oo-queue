@@ -4,17 +4,17 @@ import TinyQueue from "tinyqueue"
 import PQueue from "p-queue"
 
 export class Worker {
-  _name?: string
-  _options?: WorkerOptions<Task>
-  _running: boolean
+  _name: string
+  _state: WorkerState
+  _options: WorkerOptions<Task>
 
   _tasks?: TinyQueue<Task>
   _queue?: PQueue
 
-  constructor(name?: string, options?: WorkerOptions<Task>) {
+  constructor(name: string = "default", options: WorkerOptions<Task> = {}) {
     this._name = name
+    this._state = WorkerState.READY
     this._options = options
-    this._running = false
 
     this._initTaskPriorityQueue()
     this._initTaskProcessQueue()
@@ -25,7 +25,10 @@ export class Worker {
   }
 
   private _initTaskProcessQueue() {
-    this._queue = new PQueue({ concurrency: 1, autoStart: false })
+    this._queue = new PQueue({
+      concurrency: this._options.concurrency || 1,
+      autoStart: false
+    })
   }
 
   enqueueTask(task: Task) {
@@ -51,7 +54,7 @@ export class Worker {
     return this._queue!
   }
 
-  processBatch() {
+  processBatch(): Promise<void> {
     // this._log("queue size", this._queue!.size, "pending", this._queue!.pending)
     this._queue!.start()
     // this._queue.pause()
@@ -59,6 +62,8 @@ export class Worker {
     this._queue!.onIdle().then(() => {
       // this._log("queue size", this._queue!.size, "pending", this._queue!.pending)
     })
+
+    return this._queue!.onEmpty()
   }
 
   _log(...args: any[]) {
@@ -66,12 +71,22 @@ export class Worker {
   }
 }
 
+enum WorkerState {
+  READY,
+  RUNNING,
+  SUCCEEDED,
+  FAILED,
+  CANCELLED
+}
+
 interface WorkerOptions<T> {
   comparator?: (item: T, otherItem: T) => -1 | 0 | 1
 
   batcher?: (queue: TinyQueue<T>) => T[]
 
-  executor?: () => void
+  executor?: () => void,
+
+  concurrency?: number
 }
 
 interface Task {
