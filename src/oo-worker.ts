@@ -5,7 +5,6 @@ import PQueue from "p-queue"
 
 export class Worker {
   _name: string
-  _state: WorkerState
   _options: WorkerOptions<Task>
 
   _tasks?: TinyQueue<Task>
@@ -13,7 +12,6 @@ export class Worker {
 
   constructor(name: string = "default", options: WorkerOptions<Task> = {}) {
     this._name = name
-    this._state = WorkerState.READY
     this._options = options
 
     this._initTaskPriorityQueue()
@@ -22,6 +20,7 @@ export class Worker {
 
   private _initTaskPriorityQueue() {
     this._tasks = new TinyQueue()
+    this._tasks.compare = this._options.comparator || (() => 0)
   }
 
   private _initTaskProcessQueue() {
@@ -31,52 +30,43 @@ export class Worker {
     })
   }
 
-  enqueueTask(task: Task) {
-    this._tasks!.push(task)
+  get numOfTasks(): number { return this._tasks!.length }
+  pushTask(task: Task) { this._tasks!.push(task) }
+  popTask(): Task { return this._tasks!.pop() }
+  peekTask(): Task { return this._tasks!.peek() }
+
+  enqueueTasks(...tasks: Task[]) {
+    for (const task of tasks) {
+      this.pushTask(task)
+    }
   }
 
-  dequeueTasks(size: number = 1): Task[] {
+  dequeueTasks(numOfTasks: number = 1): Task[] {
     const batchTasks = []
-    while (size > 0 && this._tasks!.length > 0) {
-      batchTasks.push(this._tasks!.pop())
-      size -= 1
+    while (numOfTasks > 0 && this.numOfTasks > 0) {
+      batchTasks.push(this.popTask())
+      numOfTasks -= 1
     }
     return batchTasks
   }
 
-  prepareBatch(size: number = 10): PQueue {
-    const tasks = this.dequeueTasks(size)
+  processTasks(...tasks: Task[]): Promise<void> {
     for (const task of tasks) {
       this._queue!.add(() => {
         return Promise.resolve()
       })
     }
-    return this._queue!
-  }
 
-  processBatch(): Promise<void> {
-    // this._log("queue size", this._queue!.size, "pending", this._queue!.pending)
     this._queue!.start()
     // this._queue.pause()
 
-    this._queue!.onIdle().then(() => {
-      // this._log("queue size", this._queue!.size, "pending", this._queue!.pending)
-    })
-
-    return this._queue!.onEmpty()
+    return this._queue!.onIdle()
+    // return this._queue!.onEmpty()
   }
 
   _log(...args: any[]) {
     console.log(`[${this.constructor.name}]`, ...args)
   }
-}
-
-enum WorkerState {
-  READY,
-  RUNNING,
-  SUCCEEDED,
-  FAILED,
-  CANCELLED
 }
 
 interface WorkerOptions<T> {
@@ -89,33 +79,10 @@ interface WorkerOptions<T> {
   concurrency?: number
 }
 
-interface Task {
-  data?: TaskData<any>
+export interface Task {
+  index?: number,
   action?: TaskAction
 }
 
-type TaskAction = (done: TaskDoneCallback) => void
-type TaskData<T> = T
-type TaskDoneCallback = () => void
-
-function _require(condition: boolean, lazyMessage?: () => string) {
-  if (!condition) {
-    if (lazyMessage) {
-      throw lazyMessage()
-    }
-    throw "illegal argument"
-  }
-}
-
-function _requireNotNil(value: any, lazyMessage?: () => string) {
-  if (_isNil(value)) {
-    if (lazyMessage) {
-      throw lazyMessage()
-    }
-    throw "illegal argument"
-  }
-}
-
-function _isNil(value: any): boolean {
-  return value === null || value === undefined
-}
+type TaskAction = (done: TaskActionDone) => void
+type TaskActionDone = (error?: any) => void
