@@ -23,8 +23,9 @@
     "paper-item": "PolymerElements/paper-item#^2.0.0",
     "paper-progress": "PolymerElements/paper-progress#^2.0.0",
     "paper-spinner": "PolymerElements/paper-spinner#^2.0.0",
+    "oo-test-helpers": "oolymer/oo-test-helpers#^0.1.0",
     "web-component-tester": "Polymer/web-component-tester#6.5.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#1.1.0"
+    "webcomponentsjs": "webcomponents/webcomponentsjs#1.2.0"
   },
   "resolutions": {
     "polymer": "2.6.0"
