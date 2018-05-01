@@ -1,18 +1,18 @@
-export function _require(condition: boolean, lazyMessage?: () => string) {
+export function _check(condition: boolean, lazyMessage?: () => string) {
   if (!condition) {
     if (lazyMessage) {
-      throw lazyMessage()
+      throw new Error(lazyMessage())
     }
-    throw "illegal argument"
+    throw new Error("illegal argument")
   }
 }
 
-export function _requireNotNil(value: any, lazyMessage?: () => string) {
+export function _checkNotNil(value: any, lazyMessage?: () => string) {
   if (_isNil(value)) {
     if (lazyMessage) {
-      throw lazyMessage()
+      throw new Error(lazyMessage())
     }
-    throw "illegal argument"
+    throw new Error("illegal argument")
   }
 }
 

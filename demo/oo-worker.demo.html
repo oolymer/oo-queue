@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <meta charset="utf-8">
 <title>demo</title>
 
@@ -27,6 +27,7 @@
         @apply --paper-font-common-base;
         background-color: var(--paper-grey-200);
         margin: 0;
+        overflow: hidden;
       }
 
       body {
@@ -46,7 +47,6 @@
 </body>
 
 <dom-module id="demo-element">
-
   <template>
     <style>
       :host {
@@ -168,7 +168,6 @@
   <script>
     window.addEventListener("WebComponentsReady", () => {
       class DemoElement extends Polymer.Element {
-
         static get is() {
           return "demo-element"
         }
@@ -205,11 +204,9 @@
         _timeout(delayMillis) {
           return Polymer.Async.timeOut.after(delayMillis)
         }
-
       }
 
       window.customElements.define(DemoElement.is, DemoElement)
     })
   </script>
-
 </dom-module>

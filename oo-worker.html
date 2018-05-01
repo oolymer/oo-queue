@@ -1,7 +1,6 @@
 <link rel="import" href="../polymer/polymer-element.html">
 
 <dom-module id="oo-worker">
-
   <template>
     <style>
       :host {
@@ -15,9 +14,9 @@
   <script src="oo-worker.min.js"></script>
 
   <script>
-    // Declare in local function scope to avoid bleeding variables into global `window`.
+    // Use local function scope to avoid bleeding to many variables into global `window`.
     (function () {
-
+      // Declare or reuse global namespace.
       window.oo = window.oo || {}
 
       /**
@@ -25,7 +24,6 @@
        * @polymer
        */
       oo.OoWorker = class OoWorker extends Polymer.Element {
-
         static get is() {
           return "oo-worker"
         }
@@ -45,8 +43,6 @@
       }
 
       window.customElements.define(oo.OoWorker.is, oo.OoWorker)
-
     }())
   </script>
-
 </dom-module>
