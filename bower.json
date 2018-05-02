@@ -1,6 +1,6 @@
 {
   "name": "oo-worker",
-  "description": "",
+  "description": "Polymer mixin to process batches of tasks sorted by priority.",
   "version": "0.1.0",
   "authors": [
     "Benjamin Gudehus <benjamin.gudehus@canoo.com>"

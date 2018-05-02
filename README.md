@@ -5,6 +5,8 @@
 [![Polymer 2](https://img.shields.io/badge/webcomponents-Polymer%202-orange.svg?style=flat)](https://www.polymer-project.org/2.0/start/)
 <!-- [![Canoo Incubator](https://img.shields.io/badge/canoo-incubator-be1432.svg?style=flat)](https://github.com/canoo) -->
 
+> Polymer mixin to process batches of tasks sorted by priority.
+
 **Table of Contents:**
 
 <!-- TOC depthFrom:2 -->

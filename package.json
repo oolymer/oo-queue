@@ -1,6 +1,6 @@
 {
   "name": "oo-worker",
-  "description": "",
+  "description": "Polymer mixin to process batches of tasks sorted by priority.",
   "version": "0.1.0",
   "author": "Benjamin Gudehus <benjamin.gudehus@canoo.com>",
   "repository": {
@@ -41,8 +41,8 @@
     "test": "./node_modules/.bin/npm-run-all --serial test:lib test:polymer",
     "build": "./node_modules/.bin/npm-run-all --serial build:lib build:polymer",
     "build:docs": "./node_modules/.bin/polymer analyze > analysis.json",
-    "build:lib": "./node_modules/.bin/browserify src/oo-worker.ts --outfile oo-worker.min.js --plugin [ tsify --module=commonjs ] --global-transform [ uglifyify ] --standalone oo",
-    "build:lib:watch": "./node_modules/.bin/watchify src/oo-worker.ts --outfile oo-worker.min.js --plugin [ tsify --module=commonjs ] --global-transform [ uglifyify ] --standalone oo",
+    "build:lib": "./node_modules/.bin/browserify src/oo-worker.ts --verbose --outfile oo-worker.min.js --plugin [ tsify --module=commonjs ] --global-transform [ uglifyify ] --standalone oo",
+    "build:lib:watch": "./node_modules/.bin/watchify src/oo-worker.ts --verbose --outfile oo-worker.min.js --plugin [ tsify --module=commonjs ] --global-transform [ uglifyify ] --standalone oo",
     "build:polymer": "./node_modules/.bin/polymer build",
     "build:polymer:docs": "./node_modules/.bin/polymer analyze > analysis.json",
     "dev": "./node_modules/.bin/npm-run-all --parallel serve dev:serve-watch",

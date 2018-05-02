@@ -71,7 +71,7 @@ export class Worker {
 }
 
 interface WorkerOptions<T> {
-  comparator?: (item: T, otherItem: T) => -1 | 0 | 1
+  comparator?: (item: T, otherItem: T) => number
 
   batcher?: (worker: Worker) => T[]
 
@@ -81,7 +81,8 @@ interface WorkerOptions<T> {
 }
 
 export interface Task {
-  index?: number,
+  id: any,
+  priority?: number,
   action?: TaskAction
 }
 
