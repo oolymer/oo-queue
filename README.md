@@ -9,10 +9,21 @@
 
 <!-- TOC depthFrom:2 -->
 
+- [Features (to be implemented)](#features-to-be-implemented)
 - [Usage](#usage)
 - [Contribute](#contribute)
 
 <!-- /TOC -->
+
+## Features (to be implemented)
+
+What can should do:
+
+- add new tasks to the worker (these tasks are used for conditional templating)
+- sort the tasks and partition then into batches.
+- define a trigger that starts processing the tasks
+- hold a status, and a trigger that stops processing these tasks
+- define a context where tasks or task batches are executed
 
 ## Usage
 

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`oo-worker simple worker should contain tasks 1`] = `
+exports[`oo-worker complex worker should contain tasks 1`] = `
 Array [
   Object {
     "action": [Function],

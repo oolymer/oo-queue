@@ -8,14 +8,14 @@ export class Worker {
   _options: WorkerOptions<Task>
 
   _tasks?: TinyQueue<Task>
-  _queue?: PQueue
+  _processor?: PQueue
 
   constructor(name: string = "default", options: WorkerOptions<Task> = {}) {
     this._name = name
     this._options = options
 
     this._initTaskPriorityQueue()
-    this._initTaskProcessQueue()
+    this._initTaskBatchProcessor()
   }
 
   private _initTaskPriorityQueue() {
@@ -23,28 +23,29 @@ export class Worker {
     this._tasks.compare = this._options.comparator || (() => 0)
   }
 
-  private _initTaskProcessQueue() {
-    this._queue = new PQueue({
+  private _initTaskBatchProcessor() {
+    this._processor = new PQueue({
       concurrency: this._options.concurrency || 1,
       autoStart: false
     })
   }
 
-  get numOfTasks(): number { return this._tasks!.length }
-  pushTask(task: Task) { this._tasks!.push(task) }
-  popTask(): Task { return this._tasks!.pop() }
+  queueTask(task: Task) { this._tasks!.push(task) }
+  dequeueTask(): Task { return this._tasks!.pop() }
   peekTask(): Task { return this._tasks!.peek() }
+  clearTasks() { this._tasks!.data = [] }
+  get numOfTasks(): number { return this._tasks!.length }
 
-  enqueueTasks(...tasks: Task[]) {
+  queueTasks(...tasks: Task[]) {
     for (const task of tasks) {
-      this.pushTask(task)
+      this.queueTask(task)
     }
   }
 
   dequeueTasks(numOfTasks: number = 1): Task[] {
     const batchTasks = []
     while (numOfTasks > 0 && this.numOfTasks > 0) {
-      batchTasks.push(this.popTask())
+      batchTasks.push(this.dequeueTask())
       numOfTasks -= 1
     }
     return batchTasks
@@ -52,16 +53,16 @@ export class Worker {
 
   processTasks(...tasks: Task[]): Promise<void> {
     for (const task of tasks) {
-      this._queue!.add(() => {
+      this._processor!.add(() => {
         return Promise.resolve()
       })
     }
 
-    this._queue!.start()
-    // this._queue.pause()
+    this._processor!.start()
+    // this._processor.pause()
 
-    return this._queue!.onIdle()
-    // return this._queue!.onEmpty()
+    return this._processor!.onIdle()
+    // return this._processor!.onEmpty()
   }
 
   _log(...args: any[]) {
@@ -72,7 +73,7 @@ export class Worker {
 interface WorkerOptions<T> {
   comparator?: (item: T, otherItem: T) => -1 | 0 | 1
 
-  batcher?: (queue: TinyQueue<T>) => T[]
+  batcher?: (worker: Worker) => T[]
 
   executor?: () => void,
 
