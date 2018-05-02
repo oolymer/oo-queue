@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`oo-worker complex worker should contain tasks 1`] = `
+Array [
+  Object {
+    "action": [Function],
+    "index": 0,
+  },
+  Object {
+    "action": [Function],
+    "index": 1,
+  },
+  Object {
+    "action": [Function],
+    "index": 2,
+  },
+  Object {
+    "action": [Function],
+    "index": 3,
+  },
+  Object {
+    "action": [Function],
+    "index": 4,
+  },
+  Object {
+    "action": [Function],
+    "index": 5,
+  },
+  Object {
+    "action": [Function],
+    "index": 6,
+  },
+  Object {
+    "action": [Function],
+    "index": 7,
+  },
+  Object {
+    "action": [Function],
+    "index": 8,
+  },
+  Object {
+    "action": [Function],
+    "index": 9,
+  },
+  Object {
+    "action": [Function],
+    "index": 10,
+  },
+  Object {
+    "action": [Function],
+    "index": 11,
+  },
+  Object {
+    "action": [Function],
+    "index": 12,
+  },
+  Object {
+    "action": [Function],
+    "index": 13,
+  },
+  Object {
+    "action": [Function],
+    "index": 14,
+  },
+  Object {
+    "action": [Function],
+    "index": 15,
+  },
+  Object {
+    "action": [Function],
+    "index": 16,
+  },
+  Object {
+    "action": [Function],
+    "index": 17,
+  },
+  Object {
+    "action": [Function],
+    "index": 18,
+  },
+  Object {
+    "action": [Function],
+    "index": 19,
+  },
+  Object {
+    "action": [Function],
+    "index": 20,
+  },
+  Object {
+    "action": [Function],
+    "index": 21,
+  },
+  Object {
+    "action": [Function],
+    "index": 22,
+  },
+  Object {
+    "action": [Function],
+    "index": 23,
+  },
+  Object {
+    "action": [Function],
+    "index": 24,
+  },
+]
+`;

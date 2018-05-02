@@ -2,6 +2,7 @@
   "entrypoint": "index.html",
   "sources": [
     "oo-worker.html",
+    "oo-worker.min.js",
     "index.html"
   ],
   "extraDependencies": [
@@ -12,18 +13,19 @@
       "preset": "es5-bundled",
       "addServiceWorker": false,
       "addPushManifest": false,
+      "bundle": {
+        "inlineScripts": true,
+        "stripComments": true
+      },
       "js": {
         "minify": false,
-        "compile": true
+        "compile": false
       },
       "css": {
         "minify": false
       },
       "html": {
         "minify": false
-      },
-      "bundle": {
-        "stripComments": true
       }
     }
   ],

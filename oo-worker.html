@@ -1,17 +1,29 @@
 <link rel="import" href="../polymer/polymer-element.html">
 
 <dom-module id="oo-worker">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <slot></slot>
+  </template>
+
+  <script src="oo-worker.min.js"></script>
 
   <script>
-    // Declare in local function scope to avoid bleeding variables into global `window`.
+    // Use local function scope to avoid bleeding to many variables into global `window`.
     (function () {
+      // Declare or reuse global namespace.
+      window.oo = window.oo || {}
 
       /**
        * @customElement
        * @polymer
        */
-      class OoWorker extends Polymer.Element {
-
+      oo.OoWorker = class OoWorker extends Polymer.Element {
         static get is() {
           return "oo-worker"
         }
@@ -23,12 +35,14 @@
 
         ready() {
           super.ready()
+          console.log(oo)
+
+          this._worker = new oo.Worker()
+          console.log(this._worker)
         }
       }
 
-      window.customElements.define(OoWorker.is, OoWorker)
-
+      window.customElements.define(oo.OoWorker.is, oo.OoWorker)
     }())
   </script>
-
 </dom-module>

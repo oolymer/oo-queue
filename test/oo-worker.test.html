@@ -1,15 +1,16 @@
-<!-- IMPORTS. -->
-
 <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 <script src="../../web-component-tester/browser.js"></script>
+<script src="../../oo-test-helpers/mocha-extensions.js"></script>
+
+<link rel="import" href="../../iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../../oo-test-helpers/oo-test-helpers.html">
 <link rel="import" href="../oo-worker.html">
 
 <!-- FIXTURES. -->
 
-<test-fixture id="worker">
+<test-fixture id="workerFixture">
   <template>
-    <oo-worker>
-    </oo-worker>
+    <oo-worker></oo-worker>
   </template>
 </test-fixture>
 
@@ -27,7 +28,7 @@
 
       setup(() => {
         // given:
-        worker = fixture("worker")
+        worker = fixture("workerFixture")
       })
 
       test("has local name", done => {

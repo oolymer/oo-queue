@@ -10,33 +10,76 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "bower": "1.8.2",
-    "browser-sync": "2.23.6",
-    "eslint": "4.18.2",
+    "@types/d3-queue": "3.0.5",
+    "@types/jest": "22.2.3",
+    "@types/p-queue": "2.3.1",
+    "bower": "1.8.4",
+    "browser-sync": "2.24.1",
+    "browserify": "16.2.0",
+    "d3-queue": "3.0.7",
+    "eslint": "4.19.1",
     "eslint-config-standard": "11.0.0",
-    "eslint-plugin-import": "2.9.0",
+    "eslint-plugin-import": "2.10.0",
     "eslint-plugin-node": "6.0.1",
     "eslint-plugin-promise": "3.7.0",
-    "eslint-plugin-standard": "3.0.1",
+    "eslint-plugin-standard": "3.1.0",
+    "jest": "22.4.3",
     "npm-delay": "1.0.4",
     "npm-run-all": "4.1.2",
+    "p-queue": "2.4.1",
     "polymer-cli": "1.6.0",
+    "tinyqueue": "1.2.3",
+    "ts-jest": "22.4.4",
+    "tsify": "4.0.0",
+    "typescript": "2.8.3",
+    "uglifyify": "5.0.0",
+    "watchify": "3.11.0",
     "web-component-tester": "6.5.0"
   },
   "scripts": {
-    "browser": "./node_modules/.bin/npm-run-all --parallel serve browser:after",
-    "browser:after": "./node_modules/.bin/npm-run-all --serial util:delay serve:watch",
-    "build": "./node_modules/.bin/polymer build",
+    "start": "npm run dev",
+    "test": "./node_modules/.bin/npm-run-all --serial test:lib test:polymer",
+    "build": "./node_modules/.bin/npm-run-all --serial build:lib build:polymer",
     "build:docs": "./node_modules/.bin/polymer analyze > analysis.json",
-    "lint": "npm run lint:polymer",
-    "lint:js": "./node_modules/.bin/eslint . --ext js,html --ignore-path .gitignore",
-    "lint:polymer": "./node_modules/.bin/polymer lint",
-    "serve": "./node_modules/.bin/polymer serve --port 8000",
-    "serve:build": "./node_modules/.bin/polymer serve --port 8200 build/default",
-    "serve:watch": "./node_modules/.bin/browser-sync start --port 8100 --proxy 'localhost:8000' --no-ui --files '*.html, demo/**/*.html, src/**/*.html, test/**/*.html' --startPath \"/components/$npm_package_name/\"",
-    "test": "./node_modules/.bin/polymer test --local chrome,firefox --config-file wct.conf.json",
-    "test:chrome": "./node_modules/.bin/polymer test --local chrome",
-    "test:firefox": "./node_modules/.bin/polymer test --local firefox",
-    "util:delay": "node ./node_modules/.bin/npm-delay 100"
+    "build:lib": "./node_modules/.bin/browserify src/oo-worker.ts --outfile oo-worker.min.js --plugin [ tsify --module=commonjs ] --global-transform [ uglifyify ] --standalone oo",
+    "build:lib:watch": "./node_modules/.bin/watchify src/oo-worker.ts --outfile oo-worker.min.js --plugin [ tsify --module=commonjs ] --global-transform [ uglifyify ] --standalone oo",
+    "build:polymer": "./node_modules/.bin/polymer build",
+    "build:polymer:docs": "./node_modules/.bin/polymer analyze > analysis.json",
+    "dev": "./node_modules/.bin/npm-run-all --parallel serve dev:serve-watch",
+    "dev:serve-watch": "./node_modules/.bin/npm-run-all --serial util:delay serve:watch",
+    "install:bower": "./node_modules/.bin/bower install --force-latest",
+    "serve": "./node_modules/.bin/polymer serve --port $npm_package_config_portServe",
+    "serve:build": "./node_modules/.bin/polymer serve --port $npm_package_config_portServeBuild build/default",
+    "serve:watch": "./node_modules/.bin/browser-sync start --port $npm_package_config_portServeWatch --proxy \"localhost:$npm_package_config_portServe\" --no-ui --files '*.js, *.html, demo/**/*.html, src/**/*.html, test/**/*.html' --startPath \"/components/$npm_package_name/\"",
+    "test:lib": "./node_modules/.bin/jest",
+    "test:lib:watch": "./node_modules/.bin/jest --watchAll",
+    "test:polymer": "./node_modules/.bin/wct --expanded --local chrome --local firefox --configFile 'wct-headless.conf.json'",
+    "test:chrome": "./node_modules/.bin/polymer test --local chrome --persistent --skip-selenium-install",
+    "test:firefox": "./node_modules/.bin/polymer test --local firefox --persistent --skip-selenium-install",
+    "util:delay": "node ./node_modules/.bin/npm-delay 250"
+  },
+  "config": {
+    "portServe": "8900",
+    "portServeWatch": "8910",
+    "portServeBuild": "8920"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/test/**/*.(test|spec).(js|ts)"
+    ],
+    "testPathIgnorePatterns": [
+      "/bower_components/",
+      "/node_modules"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json",
+      "node"
+    ]
   }
 }

@@ -9,10 +9,21 @@
 
 <!-- TOC depthFrom:2 -->
 
+- [Features (to be implemented)](#features-to-be-implemented)
 - [Usage](#usage)
-- [Semantic Versions](#semantic-versions)
+- [Contribute](#contribute)
 
 <!-- /TOC -->
+
+## Features (to be implemented)
+
+What can should do:
+
+- add new tasks to the worker (these tasks are used for conditional templating)
+- sort the tasks and partition then into batches.
+- define a trigger that starts processing the tasks
+- hold a status, and a trigger that stops processing these tasks
+- define a context where tasks or task batches are executed
 
 ## Usage
 
@@ -26,7 +37,19 @@ $ bower install --save oolymer/oo-worker
 <oo-worker></oo-worker>
 ~~~
 
-## Semantic Versions
+## Contribute
+
+Develop.
+
+~~~
+$ npm install
+$ bower install --force-latest
+$ npm run build:node:watch
+$ npm run test:node:watch
+$ npm run browser
+~~~
+
+Semantic versions.
 
 - Version number format `MAJOR.MINOR.PATCH`, e.g. "1.5.3".
 - Increase MAJOR for breaking changes.
