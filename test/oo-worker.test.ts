@@ -97,6 +97,66 @@ describe("oo-worker", () => {
     })
   })
 
+  describe("task processor", () => {
+    let worker: Worker
+    const foo1: Task = { id: "foo-1", action: buildAction(100) }
+    const foo2: Task = { id: "foo-2", action: buildAction(100) }
+    const foo3: Task = { id: "foo-3", action: buildAction(100) }
+
+    beforeEach(() => {
+      // given:
+      worker = new Worker()
+    })
+
+    it("should dequeue tasks in order", done => {
+      // when:
+      const promise = worker.processTasks(foo1, foo2, foo3)
+
+      // then:
+      expect(worker.numOfTasks).toEqual(0)
+      expect(worker.numOfTasksWaiting).toEqual(2)
+      expect(worker.numOfTasksRunning).toEqual(1)
+
+      // expect:
+      promise.then(() => {
+        expect(worker.numOfTasksWaiting).toEqual(0)
+        expect(worker.numOfTasksRunning).toEqual(0)
+        done()
+      })
+    })
+  })
+
+  describe("task batch processor", () => {
+    let worker: Worker
+    const foo1: Task = { id: "foo-1", action: buildAction(100) }
+    const foo2: Task = { id: "foo-2", action: buildAction(100) }
+    const foo3: Task = { id: "foo-3", action: buildAction(100) }
+
+    beforeEach(() => {
+      // given:
+      worker = new Worker(undefined, {
+        concurrency: 2
+      })
+    })
+
+    it("should dequeue tasks in order", done => {
+      // when:
+      const promise = worker.processTasks(foo1, foo2, foo3)
+
+      // then:
+      expect(worker.numOfTasks).toEqual(0)
+      expect(worker.numOfTasksWaiting).toEqual(1)
+      expect(worker.numOfTasksRunning).toEqual(2)
+
+      // expect:
+      promise.then(() => {
+        expect(worker.numOfTasksWaiting).toEqual(0)
+        expect(worker.numOfTasksRunning).toEqual(0)
+        done()
+      })
+    })
+  })
+
   describe("complex worker", () => {
     // const consoleLogSpy = Spies.consoleLog()
 
@@ -128,16 +188,16 @@ describe("oo-worker", () => {
 
       // then:
       expect(worker.numOfTasks).toEqual(15)
-      expect(worker._processor!.size).toEqual(0)
-      expect(worker._processor!.pending).toEqual(0)
+      expect(worker.numOfTasksWaiting).toEqual(0)
+      expect(worker.numOfTasksRunning).toEqual(0)
 
       // when:
       const batchPromise = worker.processTasks(...batch)
 
       // then:
       expect(worker.numOfTasks).toEqual(15)
-      expect(worker._processor!.size).toEqual(5)
-      expect(worker._processor!.pending).toEqual(5)
+      expect(worker.numOfTasksWaiting).toEqual(5)
+      expect(worker.numOfTasksRunning).toEqual(5)
       batchPromise.then(done)
     })
 
@@ -156,12 +216,12 @@ describe("oo-worker", () => {
         done()
       })
     })
-
-    function buildAction(delayMillis = 100): any {
-      return (done: () => {}) => {
-        console.log("action!")
-        setTimeout(done, delayMillis)
-      }
-    }
   })
+
+  function buildAction(delayMillis = 100): any {
+    return (done: () => {}) => {
+      console.log("action!")
+      setTimeout(done, delayMillis)
+    }
+  }
 })

@@ -3,7 +3,7 @@
 import TinyQueue from "tinyqueue"
 import PQueue from "p-queue"
 
-export class Worker {
+export class Worker implements TaskQueue, BatchProcessor {
   _name: string
   _options: WorkerOptions<Task>
 
@@ -65,6 +65,14 @@ export class Worker {
     // return this._processor!.onEmpty()
   }
 
+  get numOfTasksWaiting(): number {
+    return this._processor!.size
+  }
+
+  get numOfTasksRunning(): number {
+    return this._processor!.pending
+  }
+
   _log(...args: any[]) {
     console.log(`[${this.constructor.name}]`, ...args)
   }
@@ -88,3 +96,19 @@ export interface Task {
 
 type TaskAction = (done: TaskActionDone) => void
 type TaskActionDone = (error?: any) => void
+
+export interface TaskQueue {
+  queueTask(task: Task): void
+  dequeueTask(): Task
+  peekTask(): Task
+  clearTasks(): void
+  numOfTasks: number
+}
+
+export interface BatchProcessor {
+  queueTasks(...tasks: Task[]): void
+  dequeueTasks(numOfTasks: number): Task[]
+  processTasks(...tasks: Task[]): Promise<void>
+  numOfTasksWaiting: number
+  numOfTasksRunning: number
+}
