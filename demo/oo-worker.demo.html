@@ -18,7 +18,7 @@
 <link rel="import" href="../../paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="../../paper-styles/paper-styles.html">
 <link rel="import" href="../../paper-styles/paper-styles-classes.html">
-<link rel="import" href="../oo-worker.html">
+<link rel="import" href="../oo-worker-mixin.html">
 
 <body unresolved>
   <custom-style>
@@ -43,10 +43,10 @@
     </style>
   </custom-style>
 
-  <demo-element></demo-element>
+  <demo-page></demo-page>
 </body>
 
-<dom-module id="demo-element">
+<dom-module id="demo-page">
   <template>
     <style>
       :host {
@@ -137,7 +137,7 @@
           <div class="section-head paper-font-subhead">section 1</div>
           <div class="section-body">
             <div class="section-item">
-              <oo-worker>item 0</oo-worker>
+              <oo-section>item 0</oo-section>
             </div>
             <div class="section-item">item 1</div>
             <div class="section-item">item 2</div>
@@ -174,9 +174,9 @@
 
   <script>
     window.addEventListener("WebComponentsReady", () => {
-      class DemoElement extends Polymer.Element {
+      class DemoPage extends oo.WorkerMixin(Polymer.Element) {
         static get is() {
-          return "demo-element"
+          return "demo-page"
         }
 
         static get properties() {
@@ -199,13 +199,8 @@
             this.loading = !this.loading
           })
 
-          const worker = this.shadowRoot.querySelector("oo-worker")
-          console.log(worker)
-
-          this.items = []
-          for (const task of worker._worker._tasks.data) {
-            this.items.push(task.data)
-          }
+          const worker = this._workers.default
+          console.log(worker.numOfTasks, worker.numOfTasksWaiting, worker.numOfTasksRunning)
         }
 
         _timeout(delayMillis) {
@@ -213,7 +208,29 @@
         }
       }
 
-      window.customElements.define(DemoElement.is, DemoElement)
+      window.customElements.define(DemoPage.is, DemoPage)
+    })
+  </script>
+</dom-module>
+
+<dom-module id="demo-section">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+  </template>
+
+  <script>
+    window.addEventListener("WebComponentsReady", () => {
+      class DemoSection extends oo.WorkerMixin(Polymer.Element) {
+        static get is() {
+          return "demo-section"
+        }
+      }
+
+      window.customElements.define(DemoSection.is, DemoSection)
     })
   </script>
 </dom-module>

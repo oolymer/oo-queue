@@ -1,0 +1,35 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<script src="oo-worker.min.js"></script>
+
+<script>
+  // Use local function scope to avoid bleeding too many variables into global `window`.
+  (function () {
+    // Declare or reuse global namespace.
+    window.oo = window.oo || {}
+
+    oo.defaultWorker = new oo.Worker("default", {
+      concurrent: 10
+    })
+
+    /**
+     * A custom element class mixin that provides a collection of utility methods.
+     *
+     * @polymerMixin
+     * @memberof oo
+     */
+    oo.WorkerMixin = Polymer.dedupingMixin(function (superClass) {
+
+      /**
+       * @polymerMixinClass
+       */
+      return class WorkerMixin extends superClass {
+        ready() {
+          super.ready()
+          this._workers = { default: oo.defaultWorker }
+        }
+      }
+
+    })
+  }())
+</script>
