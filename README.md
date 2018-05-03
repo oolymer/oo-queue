@@ -19,13 +19,15 @@
 
 ## Features (to be implemented)
 
-What can should do:
+- **Add new tasks to the worker.** Tasks contain a callback function and a metadata object. They are used for conditional templating.
 
-- add new tasks to the worker (these tasks are used for conditional templating)
-- sort the tasks and partition then into batches.
-- define a trigger that starts processing the tasks
-- hold a status, and a trigger that stops processing these tasks
-- define a context where tasks or task batches are executed
+- **Sort tasks by priority and partion them into batches.**
+
+- **Allow to define triggers that start or stop processing of tasks.**
+
+- **Provide the status of the process.**
+
+- **Allow to provide an exection context where a task or a task batch is processed.**
 
 ## Usage
 
@@ -44,11 +46,11 @@ $ bower install --save oolymer/oo-worker
 Develop.
 
 ~~~
-$ npm install
-$ bower install --force-latest
-$ npm run build:node:watch
-$ npm run test:node:watch
-$ npm run browser
+$ yarn install
+$ yarn install:bower
+$ yarn build
+$ yarn test
+$ yarn start
 ~~~
 
 Semantic versions.
